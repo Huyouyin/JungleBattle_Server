@@ -1,0 +1,6 @@
+c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\TCP_Client\bin\Debug\TCP_Client.exe.config
+c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\TCP_Client\bin\Debug\TCP_Client.exe
+c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\TCP_Client\bin\Debug\TCP_Client.pdb
+c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\TCP_Client\obj\Debug\TCP_Client.csprojResolveAssemblyReference.cache
+c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\TCP_Client\obj\Debug\TCP_Client.exe
+c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\TCP_Client\obj\Debug\TCP_Client.pdb
