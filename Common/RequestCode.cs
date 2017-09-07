@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Common
 {
-    public enum RequesetCode
+    public enum RequestCode
     {
         None
     }
