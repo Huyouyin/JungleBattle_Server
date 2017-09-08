@@ -5,13 +5,13 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using JungleBattle_Server.Tools;
 
 namespace JungleBattle_Server.Server
 {
     /// <summary>
     /// 2017-9-6
     /// huyy
-    /// 
     /// 此类用于和客户端做交互
     /// </summary>
     public class Client
@@ -20,12 +20,14 @@ namespace JungleBattle_Server.Server
         private Socket clientSocket;
         private GameServer server;
         private Message msg;
+        private ConnHelper connHelper;
 
         public Client(Socket _clientSocket,GameServer server)
         {
             clientSocket = _clientSocket;
             this.server = server;
-            msg = new Message();          
+            msg = new Message();
+            connHelper = new ConnHelper();
             //string str = string.Format("欢迎链接!!   IP:{0}      Port:{1}" , GameServer.IP , GameServer.PORT);
             //byte[] buffer = msg.StringToBytes(str);
             //Send(buffer);
@@ -73,7 +75,7 @@ namespace JungleBattle_Server.Server
             OnResponse(mdata.requsetCode , requestResult);
         }
 
-        private void OnResponse(RequesetCode request,object responseData)
+        private void OnResponse(RequestCode request,object responseData)
         {
             byte[] buffer = Message.PackData(request , responseData as string);
             Send(buffer);
@@ -82,6 +84,7 @@ namespace JungleBattle_Server.Server
         private void Quit()
         {
             clientSocket.Close();
+            connHelper.Close();
             server.RemoveClient(this);
         }
     }

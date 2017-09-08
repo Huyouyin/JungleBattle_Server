@@ -11,13 +11,13 @@ namespace JungleBattle_Server.Controller
 {
     class ControllerManager
     {
-        private Dictionary<RequesetCode , BaseController> controllerDic;
+        private Dictionary<RequestCode , BaseController> controllerDic;
         public ControllerManager()
         {
-            controllerDic = new Dictionary<RequesetCode , BaseController>();
+            controllerDic = new Dictionary<RequestCode , BaseController>();
         }
 
-        private BaseController GetController(RequesetCode request)
+        private BaseController GetController(RequestCode request)
         {
             BaseController controller;
             if(controllerDic.TryGetValue(request,out controller))

@@ -24,7 +24,6 @@ namespace JungleBattle_Server.Server
         public Message()
         {
             receiveMsg = new byte[MAX_RECEIVE_LENGTH];
-            msgQueue = new Queue<string>();
             currentMsgLength = 0;
             msgRemainLength = MAX_RECEIVE_LENGTH - currentMsgLength;
         }
@@ -71,7 +70,7 @@ namespace JungleBattle_Server.Server
         }
 
         //数据打包，用于响应客户端
-        public static byte[] PackData(RequesetCode request,string str)
+        public static byte[] PackData(RequestCode request,string str)
         {
             byte[] lengthBuffer = BitConverter.GetBytes(str.Length + MSG_HEAD_LENGTH);
             byte[] requestBuffer = BitConverter.GetBytes((int)request);
@@ -84,12 +83,12 @@ namespace JungleBattle_Server.Server
 
     public class MessageData
     {
-        public RequesetCode requsetCode;
+        public RequestCode requsetCode;
         public ActionCode actionCode;
         public string data;
         public MessageData(int request,int action,string data)
         {
-            this.requsetCode = (RequesetCode)request;
+            this.requsetCode = (RequestCode)request;
             this.actionCode = (ActionCode)action;
             this.data = data;
         }

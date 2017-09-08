@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using
 using JungleBattle_Server.Controller;
 
 namespace JungleBattle_Server.Server
@@ -59,9 +58,9 @@ namespace JungleBattle_Server.Server
         }
         
         //用来处理用户请求
-        public void HandleRequest(MessageData data,Client client)
+        public void HandleRequest(MessageData mdata,Client client)
         {
-            object res = controllerManager.HandleMessageData(data);
+            object res = controllerManager.HandleMessageData(mdata);
             if(res != null)
             {
                 client.HandleRequestResult(mdata, res);
