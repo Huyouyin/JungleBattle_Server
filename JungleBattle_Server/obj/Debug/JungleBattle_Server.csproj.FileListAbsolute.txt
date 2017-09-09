@@ -7,3 +7,12 @@ c:\users\pd\documents\visual studio 2015\Projects\JungleBattle_Server\JungleBatt
 C:\Users\PD\documents\visual studio 2015\Projects\JungleBattle_Server\JungleBattle_Server\bin\Debug\Common.dll
 C:\Users\PD\documents\visual studio 2015\Projects\JungleBattle_Server\JungleBattle_Server\bin\Debug\MySql.Data.dll
 C:\Users\PD\documents\visual studio 2015\Projects\JungleBattle_Server\JungleBattle_Server\bin\Debug\Common.pdb
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\bin\Debug\JungleBattle_Server.exe.config
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\bin\Debug\JungleBattle_Server.exe
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\bin\Debug\JungleBattle_Server.pdb
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\bin\Debug\Common.dll
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\bin\Debug\MySql.Data.dll
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\bin\Debug\Common.pdb
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\obj\Debug\JungleBattle_Server.csprojResolveAssemblyReference.cache
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\obj\Debug\JungleBattle_Server.exe
+D:\VSProjects\JungleBattle_Server\JungleBattle_Server\obj\Debug\JungleBattle_Server.pdb

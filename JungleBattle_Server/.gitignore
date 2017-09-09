@@ -1,0 +1,5 @@
+.vs/
+obj/
+bin/
+JungleBattle_Server.csproj
+App.config

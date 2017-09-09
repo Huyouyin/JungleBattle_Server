@@ -16,7 +16,7 @@ namespace JungleBattle_Server.Server
     /// </summary>
     public class GameServer
     {
-        public static readonly string IP = "192.168.6.67";
+        public static readonly string IP = "127.0.0.1";
         public static readonly int PORT = 9527;
 
         private Socket serverSocket;
