@@ -9,6 +9,8 @@ namespace JungleBattle_Server.Controller
 {
     abstract class BaseController
     {
+        protected RequestCode requestCode=RequestCode.None;
+        
         public virtual object DefaultHandleRequset(string data)
         {
             return null;

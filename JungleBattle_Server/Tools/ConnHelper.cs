@@ -14,26 +14,27 @@ namespace JungleBattle_Server.Tools
     /// </summary>
     public class ConnHelper
     {
-        public readonly string CONNECTSTRING = "datasource=127.0.0.1;port=3306;database=junglebattle;user=root;password=root";
+        private readonly string CONNECTSTRING = "datasource=127.0.0.1;port=3306;database=junglebattle;user=root;password=root";
         MySqlConnection conn;
-        private void Connect()
+
+        public MySqlConnection Conn
+        {
+            get { return conn; }
+        }
+        public MySqlConnection Connect()
         {
             conn = new MySqlConnection(CONNECTSTRING);
             try
             {
                 conn.Open();
+                return conn;
             }
             catch(Exception e)
             {
                 Console.WriteLine(e);
                 throw e;
             }
-        }
-
-        public ConnHelper()
-        {
-            Connect();
-        }
+        }        
 
         public void Close()
         {

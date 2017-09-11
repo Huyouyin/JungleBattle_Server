@@ -60,10 +60,10 @@ namespace JungleBattle_Server.Server
         //用来处理用户请求
         public void HandleRequest(MessageData mdata,Client client)
         {
-            object res = controllerManager.HandleMessageData(mdata);
+            object res = controllerManager.HandleRequest(mdata,client);
             if(res != null)
             {
-                client.HandleRequestResult(mdata, res);
+                client.OnResponse(mdata, res);
             }
         }
 

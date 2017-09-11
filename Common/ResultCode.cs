@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Common
 {
-    public enum ActionCode
+    public enum ResultCode
     {
-        None,
-        Login,
-        Register
+        Success,
+        Fail
     }
 }

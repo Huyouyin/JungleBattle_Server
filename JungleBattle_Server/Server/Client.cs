@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using JungleBattle_Server.Tools;
+using MySql.Data.MySqlClient;
 
 namespace JungleBattle_Server.Server
 {
@@ -28,10 +29,12 @@ namespace JungleBattle_Server.Server
             this.server = server;
             msg = new Message();
             connHelper = new ConnHelper();
-            //string str = string.Format("欢迎链接!!   IP:{0}      Port:{1}" , GameServer.IP , GameServer.PORT);
-            //byte[] buffer = msg.StringToBytes(str);
-            //Send(buffer);
             BeginReceive();
+        }
+
+        public MySqlConnection GetConn()
+        {
+            return connHelper.Conn;
         }
 
         private void Send(byte[] buffer)
@@ -46,8 +49,6 @@ namespace JungleBattle_Server.Server
 
         private void ReceiveCallBack(IAsyncResult ar)
         {
-            Console.WriteLine("------------------------------------------------------------------------------------------");
-
             int amount = 0;
             try
             {
@@ -69,13 +70,13 @@ namespace JungleBattle_Server.Server
         {
             server.HandleRequest(mdata,this);
         }
-        //处理响应
-        public void HandleRequestResult(MessageData mdata, object requestResult)
+        //响应客户端
+        public void OnResponse(MessageData mdata, object requestResult)
         {
             OnResponse(mdata.requsetCode , requestResult);
         }
 
-        private void OnResponse(RequestCode request,object responseData)
+        private void OnResponse(RequestCode request, object responseData)
         {
             byte[] buffer = Message.PackData(request , responseData as string);
             Send(buffer);
