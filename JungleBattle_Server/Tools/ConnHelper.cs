@@ -31,7 +31,6 @@ namespace JungleBattle_Server.Tools
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
                 throw e;
             }
         }        

@@ -9,18 +9,60 @@ namespace JungleBattle_Server.DAO
 {
     public class UserDAO
     {
-        public bool VarifyAccount(MySqlConnection conn, string name,string pass)
+        public bool ExistAccount(MySqlConnection conn, string name,string pass)
         {
-            string cmdStr="select * from user where name= @name and pass=@pass ";
+            string cmdStr="select * from user where username=@name and userpass=@pass ";
             MySqlCommand cmd = new MySqlCommand(cmdStr, conn);
-            cmd.Parameters.AddWithValue("name", name);
-            cmd.Parameters.AddWithValue("pass", pass);
-            int res = cmd.ExecuteNonQuery();
-            if(res > 0)
+            cmd.Parameters.AddWithValue("name" , name);
+            cmd.Parameters.AddWithValue("pass" , pass);
+            MySqlDataReader reader=null;
+            try
             {
-                return true;
+                reader = cmd.ExecuteReader();
+                if(reader.Read())
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }   
+            finally
+            {
+                if(reader != null)
+                    reader.Close();
+                cmd.Dispose();
+            }
+        }
+
+        public bool InsertAccount(MySqlConnection conn , string name , string pass)
+        {
+            string cmdStr = "insert into user set username=@name ,userpass=@pass";
+            MySqlCommand cmd = new MySqlCommand(cmdStr , conn);
+            cmd.Parameters.AddWithValue("name" , name);
+            cmd.Parameters.AddWithValue("pass" , pass);
+            try
+            {
+                int res = cmd.ExecuteNonQuery();
+                if(res == 1)
+                {
+
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
+            finally
+            {
+                cmd.Dispose();
+            }
         }
     }
 }

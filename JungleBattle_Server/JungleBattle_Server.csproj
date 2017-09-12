@@ -51,6 +51,7 @@
     <Compile Include="Controller\BaseController.cs" />
     <Compile Include="Controller\ControllerManager.cs" />
     <Compile Include="Controller\LoginController.cs" />
+    <Compile Include="Controller\RegiserController.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />

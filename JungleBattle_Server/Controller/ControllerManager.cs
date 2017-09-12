@@ -16,6 +16,7 @@ namespace JungleBattle_Server.Controller
         {
             controllerDic = new Dictionary<RequestCode , BaseController>();
             controllerDic.Add(RequestCode.LoginRequest, new LoginController());
+            controllerDic.Add(RequestCode.RegisterRequest , new RegiserController());
         }
 
         /// <summary>
@@ -37,18 +38,18 @@ namespace JungleBattle_Server.Controller
         /// <summary>
         /// 处理消息
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="mdata"></param>
         /// <returns></returns>
-        public string HandleRequest(MessageData data,Client client)
+        public void HandleRequest(MessageData mdata,Client client)
         {
-            BaseController controller = GetController(data.requsetCode);
-            string methodname = data.actionCode.ToString();
+            
+            BaseController controller = GetController(mdata.requsetCode);
+            string methodname = mdata.actionCode.ToString();
             MethodInfo methodInfo = controller.GetType().GetMethod(methodname);
             if(methodInfo == null)
                 throw new Exception("没有找到指定方法：" + methodname);
-            object[] userdata = { data.data,client};
-            string res = methodInfo.Invoke(controller , userdata) as string;
-            return res;
+            object[] userdata = { mdata.data,client};
+            methodInfo.Invoke(controller , userdata);
         }
     }
 }

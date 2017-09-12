@@ -64,19 +64,20 @@ namespace JungleBattle_Server.Server
             int actioncode = BitConverter.ToInt32(receiveMsg , MSG_HEAD_LENGTH * 2);
             string msg = Encoding.UTF8.GetString(receiveMsg , MSG_HEAD_LENGTH * 3 , msglength-MSG_HEAD_LENGTH*2);
             MessageData md = new MessageData(requestcode , actioncode , msg);
+            Console.WriteLine("收到一条消息："+md.requsetCode.ToString() +","+ md.actionCode.ToString() +","+ md.data);
             handleMesssage(md);
             UpdateCache(msglength + MSG_HEAD_LENGTH);
             return true;
         }
 
         //数据打包，用于响应客户端
-        public static byte[] PackData(RequestCode request,string str)
+        public static byte[] PackData(MessageData mdata)
         {
-            byte[] lengthBuffer = BitConverter.GetBytes(str.Length + MSG_HEAD_LENGTH);
-            byte[] requestBuffer = BitConverter.GetBytes((int)request);
-            byte[] strBuffer = Encoding.UTF8.GetBytes(str);
+            byte[] requestBuffer = BitConverter.GetBytes((int)mdata.requsetCode);//请求
+            byte[] dataBuffer = Encoding.UTF8.GetBytes(mdata.data);//数据
+            byte[] lengthBuffer = BitConverter.GetBytes(dataBuffer.Length + MSG_HEAD_LENGTH);//总长度
 
-            byte[] buffer = lengthBuffer.Concat(requestBuffer).Concat(strBuffer).ToArray();
+            byte[] buffer = lengthBuffer.Concat(requestBuffer).Concat(dataBuffer).ToArray();
             return buffer;
         }
     }
@@ -90,6 +91,12 @@ namespace JungleBattle_Server.Server
         {
             this.requsetCode = (RequestCode)request;
             this.actionCode = (ActionCode)action;
+            this.data = data;
+        }
+        public MessageData(RequestCode request , ActionCode action , string data)
+        {
+            this.requsetCode = request;
+            this.actionCode = action;
             this.data = data;
         }
     }

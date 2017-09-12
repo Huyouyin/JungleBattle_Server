@@ -60,11 +60,7 @@ namespace JungleBattle_Server.Server
         //用来处理用户请求
         public void HandleRequest(MessageData mdata,Client client)
         {
-            object res = controllerManager.HandleRequest(mdata,client);
-            if(res != null)
-            {
-                client.OnResponse(mdata, res);
-            }
+            controllerManager.HandleRequest(mdata,client);
         }
 
         public void RemoveClient(Client client)

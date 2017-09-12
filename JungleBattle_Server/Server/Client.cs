@@ -29,6 +29,7 @@ namespace JungleBattle_Server.Server
             this.server = server;
             msg = new Message();
             connHelper = new ConnHelper();
+            connHelper.Connect();
             BeginReceive();
         }
 
@@ -54,9 +55,8 @@ namespace JungleBattle_Server.Server
             {
                 amount = clientSocket.EndReceive(ar);
             }
-            catch (SocketException e)
+            catch (Exception e)
             {
-                Console.WriteLine(e);
                 Console.WriteLine("远程客户端已经强制断开链接");
                 Quit();
                 return;
@@ -68,17 +68,14 @@ namespace JungleBattle_Server.Server
         //处理收到消息
         private void ProcessMessageData(MessageData mdata)
         {
+            
+
             server.HandleRequest(mdata,this);
         }
         //响应客户端
-        public void OnResponse(MessageData mdata, object requestResult)
+        public void OnResponse(MessageData mdata)
         {
-            OnResponse(mdata.requsetCode , requestResult);
-        }
-
-        private void OnResponse(RequestCode request, object responseData)
-        {
-            byte[] buffer = Message.PackData(request , responseData as string);
+            byte[] buffer = Message.PackData(mdata);
             Send(buffer);
         }
 

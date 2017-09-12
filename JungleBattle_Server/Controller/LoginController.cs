@@ -17,13 +17,24 @@ namespace JungleBattle_Server.Controller
             this.requestCode = RequestCode.LoginRequest;
             userDAO = new UserDAO();
         }
-        public object Login(string data,Client client)
+        public void Login(string data,Client client)
         {
+
             string[] account=data.Split(' ');
-            bool res = userDAO.VarifyAccount(client.GetConn(), account[0], account[1]);
-            if (res)
-                return ResultCode.Success;
-            return ResultCode.Fail;
+            bool res = userDAO.ExistAccount(client.GetConn(), account[0], account[1]);
+
+            LoginResultCode resCode = Common.LoginResultCode.Fail;
+            if(res)
+            {
+                resCode = Common.LoginResultCode.Success;
+            }
+            //Console.WriteLine("结果：" + resCode.ToString());
+            OnResponseLogin(resCode , client);
+        }
+        private void OnResponseLogin(LoginResultCode resCode,Client client)
+        {
+            MessageData mdata = new MessageData(RequestCode.LoginRequest , ActionCode.Login , resCode.ToString());
+            client.OnResponse(mdata);
         }
     }
 }

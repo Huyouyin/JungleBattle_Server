@@ -4,9 +4,15 @@ using System.Text;
 
 namespace Common
 {
-    public enum ResultCode
+    public enum LoginResultCode
     {
-        Success,
+        Success=0,
         Fail
+    }
+    public enum RegisterResultCode
+    {
+        Success=0,
+        Fail,
+        AlreadyExit
     }
 }
