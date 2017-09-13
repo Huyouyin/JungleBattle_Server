@@ -12,10 +12,13 @@ namespace JungleBattle_Server.Controller
     class RegiserController:BaseController
     {
         UserDAO userDAO;
+        UserGameCountDAO usergameDAO;
+
         public RegiserController()
         {
             this.requestCode = RequestCode.RegisterRequest;
             userDAO = new UserDAO();
+            usergameDAO = new UserGameCountDAO();
         }
 
         public void Register(string data , Client client)
@@ -24,11 +27,21 @@ namespace JungleBattle_Server.Controller
             string name = datas[0];
             string pass = datas[1];
             RegisterResultCode resCode = RegisterResultCode.Fail;
-            if(!userDAO.ExistAccount(client.GetConn(),name,pass))
+            int userid = userDAO.ExistAccount(client.GetConn() , name , pass);
+            if(userid==-1)
             {//不存在用户
                 if(userDAO.InsertAccount(client.GetConn() , name , pass))
                 {//创建成功
-                    resCode = RegisterResultCode.Success;
+                    userid = userDAO.ExistAccount(client.GetConn() , name , pass);
+                    bool insertres = usergameDAO.Insert(new Model.UserGameCount(userid , 0 , 0) , client.GetConn());
+                    if(insertres)
+                    {
+                        resCode = RegisterResultCode.Success;
+                    }
+                    else
+                    {
+                        throw new Exception("插入表usergamecount失败");
+                    }
                 }
             }
             else

@@ -13,6 +13,7 @@ namespace Common
     {
         Success=0,
         Fail,
-        AlreadyExit
+        AlreadyExit,        //用户已经存在
+        InsertFailed        //插入用户局数失败
     }
 }

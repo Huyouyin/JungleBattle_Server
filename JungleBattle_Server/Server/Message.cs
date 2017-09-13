@@ -80,6 +80,17 @@ namespace JungleBattle_Server.Server
             byte[] buffer = lengthBuffer.Concat(requestBuffer).Concat(dataBuffer).ToArray();
             return buffer;
         }
+
+        public static string PackContentData(char sparateChar,params string[] datas)
+        {
+            string content = string.Empty;
+            for(int i=0;i<datas.Length;i++)
+            {
+                content += datas[i];
+                content += sparateChar;
+            }
+            return content;
+        }
     }
 
     public class MessageData

@@ -9,7 +9,7 @@ namespace JungleBattle_Server.DAO
 {
     public class UserDAO
     {
-        public bool ExistAccount(MySqlConnection conn, string name,string pass)
+        public int ExistAccount(MySqlConnection conn, string name,string pass)
         {
             string cmdStr="select * from user where username=@name and userpass=@pass ";
             MySqlCommand cmd = new MySqlCommand(cmdStr, conn);
@@ -21,9 +21,9 @@ namespace JungleBattle_Server.DAO
                 reader = cmd.ExecuteReader();
                 if(reader.Read())
                 {
-                    return true;
+                    return reader.GetInt32(0);
                 }
-                return false;
+                return -1;
             }
             catch (Exception e)
             {
@@ -49,7 +49,6 @@ namespace JungleBattle_Server.DAO
                 int res = cmd.ExecuteNonQuery();
                 if(res == 1)
                 {
-
                     return true;
                 }
                 return false;
