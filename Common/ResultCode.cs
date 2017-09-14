@@ -4,16 +4,20 @@ using System.Text;
 
 namespace Common
 {
-    public enum LoginResultCode
+    public enum LoginResultCode                         //登陆返回
     {
         Success=0,
         Fail
     }
-    public enum RegisterResultCode
+    public enum RegisterResultCode                      //注册返回
     {
         Success=0,
         Fail,
-        AlreadyExit,        //用户已经存在
-        InsertFailed        //插入用户局数失败
+        AlreadyExit        //用户已经存在
+    }
+    public enum RoomResultCode                          //创建房间返回
+    {
+        CreateSuccess,
+        CreateFail
     }
 }

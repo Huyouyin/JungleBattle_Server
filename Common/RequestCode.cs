@@ -7,7 +7,7 @@ namespace Common
     public enum RequestCode
     {
         None,
-        LoginRequest,
-        RegisterRequest
+        User,
+        Room
     }
 }
