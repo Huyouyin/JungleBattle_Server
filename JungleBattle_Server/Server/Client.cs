@@ -68,8 +68,6 @@ namespace JungleBattle_Server.Server
         //处理收到消息
         private void ProcessMessageData(MessageData mdata)
         {
-            
-
             server.HandleRequest(mdata,this);
         }
         //响应客户端

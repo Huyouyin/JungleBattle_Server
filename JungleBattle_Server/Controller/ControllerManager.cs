@@ -15,8 +15,8 @@ namespace JungleBattle_Server.Controller
         public ControllerManager()
         {
             controllerDic = new Dictionary<RequestCode , BaseController>();
-            controllerDic.Add(RequestCode.LoginRequest, new LoginController());
-            controllerDic.Add(RequestCode.RegisterRequest , new RegiserController());
+            controllerDic.Add(RequestCode.User, new UserController());
+            controllerDic.Add(RequestCode.Room , new RoomController());
         }
 
         /// <summary>
@@ -42,7 +42,6 @@ namespace JungleBattle_Server.Controller
         /// <returns></returns>
         public void HandleRequest(MessageData mdata,Client client)
         {
-            
             BaseController controller = GetController(mdata.requsetCode);
             string methodname = mdata.actionCode.ToString();
             MethodInfo methodInfo = controller.GetType().GetMethod(methodname);
