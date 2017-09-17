@@ -26,30 +26,25 @@ namespace JungleBattle_Server.Controller
         {
 
             string[] account = data.Split(' ');
-            int userid = userDAO.ExistAccount(client.GetConn() , account[0] , account[1]);
+            User user = userDAO.ExistAccount(client.GetConn() , account[0] , account[1]);
 
             LoginResultCode resCode = Common.LoginResultCode.Fail;
             UserGameCount ugc = null;
-            if(userid != -1)
+            if(user  != null)
             {
                 resCode = Common.LoginResultCode.Success;
-                ugc = usergamecountDAO.Check(userid , client.GetConn());
-                if(ugc == null)
-                {
-                    throw new Exception("在usergamecount中找不到此用户：userid=" + userid);
-                }
             }
             //Console.WriteLine("结果：" + resCode.ToString());
-            OnResponseLogin(resCode , client , ugc);
+            OnResponseLogin(resCode , client , user);
         }
         //登陆响应
-        private void OnResponseLogin(LoginResultCode resCode , Client client , UserGameCount ugc)
+        private void OnResponseLogin(LoginResultCode resCode , Client client,User user)
         {
             string data = string.Empty;
             switch(resCode)
             {
                 case LoginResultCode.Success:
-                    data = Message.PackContentData(',' , resCode.ToString() , ugc.totalCount.ToString() , ugc.winCount.ToString());
+                    data = Message.PackContentData(' ' , resCode.ToString(),user.userid.ToString(),user.userName,user.userPass);
                     break;
                 case LoginResultCode.Fail:
                     data = Message.PackContentData(',' , resCode.ToString());
@@ -60,6 +55,7 @@ namespace JungleBattle_Server.Controller
             MessageData mdata = new MessageData(RequestCode.User , ActionCode.Login , data);
             client.OnResponse(mdata);
         }
+
         //客户端注册处理
         public void Register(string data , Client client)
         {
@@ -67,13 +63,13 @@ namespace JungleBattle_Server.Controller
             string name = datas[0];
             string pass = datas[1];
             RegisterResultCode resCode = RegisterResultCode.Fail;
-            int userid = userDAO.ExistAccount(client.GetConn() , name , pass);
-            if(userid == -1)
+            User user = userDAO.ExistAccount(client.GetConn() , name , pass);
+            if(user == null)
             {//不存在用户
                 if(userDAO.InsertAccount(client.GetConn() , name , pass))
                 {//创建成功
-                    userid = userDAO.ExistAccount(client.GetConn() , name , pass);
-                    bool insertres = usergamecountDAO.Insert(new Model.UserGameCount(userid , 0 , 0) , client.GetConn());
+                    user = userDAO.ExistAccount(client.GetConn() , name , pass);
+                    bool insertres = usergamecountDAO.Insert(new UserGameCount(user.userid , 0 , 0) , client.GetConn());
                     if(insertres)
                     {
                         resCode = RegisterResultCode.Success;
@@ -94,6 +90,24 @@ namespace JungleBattle_Server.Controller
         private void OnResponseRegister(RegisterResultCode resCode , Client client)
         {
             MessageData mdata = new MessageData(RequestCode.User , ActionCode.Register , resCode.ToString());
+            client.OnResponse(mdata);
+        }
+
+        //客户端请求战斗次数
+        public void BattleCount(string data,Client client)
+        {
+            UserGameCount ugc = usergamecountDAO.Check(int.Parse(data) , client.GetConn());
+            if(ugc == null)
+            {
+                throw new Exception("没有找到用户的战斗数据：" + data);
+            }
+            OnResponseBattleCount(ugc,client);
+        }
+
+        private void OnResponseBattleCount(UserGameCount ugc , Client client)
+        {
+            string data = ugc.totalCount + "," + ugc.winCount;
+            MessageData mdata = new MessageData(RequestCode.User , ActionCode.BattleCount , data);
             client.OnResponse(mdata);
         }
     }

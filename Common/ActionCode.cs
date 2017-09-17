@@ -6,10 +6,18 @@ namespace Common
 {
     public enum ActionCode
     {
+        //账号相关
         None,
-        Login,
+        Login =1,
         Register,
-        CreateRoom,
-        RoomList
+
+
+        //房间相关
+        CreateRoom = 100,
+        RoomListUnStart,
+
+
+        //战绩相关
+        BattleCount = 200
     }
 }

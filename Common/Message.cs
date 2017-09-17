@@ -112,5 +112,11 @@ namespace Common
                 this.actionCode = action;
                 this.data = data;
             }
+
+        public override string ToString()
+        {
+            string str = requsetCode.ToString() + "," + actionCode.ToString() + "," + data;
+            return str;
         }
+    }
 }

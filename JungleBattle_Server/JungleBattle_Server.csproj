@@ -52,8 +52,10 @@
     <Compile Include="Controller\ControllerManager.cs" />
     <Compile Include="Controller\RoomController.cs" />
     <Compile Include="Controller\UserController.cs" />
+    <Compile Include="DAO\RoomDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DAO\UserGameCountDAO.cs" />
+    <Compile Include="Model\Room.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserGameCount.cs" />
     <Compile Include="Program.cs" />

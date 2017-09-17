@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JungleBattle_Server.Model;
 using MySql.Data.MySqlClient;
 
 namespace JungleBattle_Server.DAO
 {
     public class UserDAO
     {
-        public int ExistAccount(MySqlConnection conn, string name,string pass)
+        public User ExistAccount(MySqlConnection conn, string name,string pass)
         {
             string cmdStr="select * from user where username=@name and userpass=@pass ";
             MySqlCommand cmd = new MySqlCommand(cmdStr, conn);
@@ -21,9 +22,13 @@ namespace JungleBattle_Server.DAO
                 reader = cmd.ExecuteReader();
                 if(reader.Read())
                 {
-                    return reader.GetInt32(0);
+                    int userid = reader.GetInt32(0);
+                    string username = reader.GetString(1);
+                    string userpass = reader.GetString(2);
+                    User user = new User(userid , username , userpass);
+                    return user;
                 }
-                return -1;
+                return null;
             }
             catch (Exception e)
             {

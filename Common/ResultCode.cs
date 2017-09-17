@@ -15,9 +15,11 @@ namespace Common
         Fail,
         AlreadyExit        //用户已经存在
     }
-    public enum RoomResultCode                          //创建房间返回
+    public enum CreateRoomResultCode                          //创建房间返回
     {
         CreateSuccess,
-        CreateFail
+        CreateFail,
+        RepeatCreate        //重复创建
     }
+    
 }
