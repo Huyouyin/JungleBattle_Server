@@ -6,7 +6,7 @@ namespace Common
 {
     public enum RoomStatus
     {
-        Waiting,
+        Waiting=0,
         Battling,
         Dismiss
     }

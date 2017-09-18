@@ -10,6 +10,7 @@ namespace Common
         None,
         Login =1,
         Register,
+        Logout,
 
 
         //房间相关

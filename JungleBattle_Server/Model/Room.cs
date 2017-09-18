@@ -11,13 +11,13 @@ namespace JungleBattle_Server.Model
     {
         public int roomId;
         public RoomStatus roomStatus;   //房间状态
-        public int RoomOwnerId;   //房主ID
-        public int rivavlId;    //竞赛者ID
+        public string ownerName;   //房主ID
+        public string rivavlName;    //竞赛者ID
 
-        public Room(int roomid,int ownerid)
+        public Room(int roomid,string ownername)
         {
             this.roomId = roomid;
-            this.RoomOwnerId = ownerid;
+            this.ownerName = ownername;
         }
     }
 }

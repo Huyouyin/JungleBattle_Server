@@ -19,8 +19,8 @@ namespace JungleBattle_Server.Controller
         }
         public void CreateRoom(string data , Client client)
         {
-            int userid = int.Parse(data);
-            int roomid = roomDAO.SeachWaitingRoomByUserID(client.GetConn(),userid);
+            string ownername = data;
+            int roomid = roomDAO.SeachWaitingRoomByUserName(client.GetConn(), ownername);
             CreateRoomResultCode resCode = CreateRoomResultCode.CreateFail;
             if(roomid != -1)
             {
@@ -28,30 +28,46 @@ namespace JungleBattle_Server.Controller
             }
             else
             {
-                bool res = roomDAO.InsertNewRoom(client.GetConn() , userid);
+                bool res = roomDAO.InsertNewRoom(client.GetConn() , ownername);
                 if(res)
                 {
-                    resCode = CreateRoomResultCode.CreateSuccess;
+                    roomid = roomDAO.SeachWaitingRoomByUserName(client.GetConn() , ownername);
+                    if(roomid != -1)
+                    {
+                        resCode = CreateRoomResultCode.CreateSuccess;
+                    }
                 }
             }
-            OnResponseCreateRoom(resCode , client);
+            OnResponseCreateRoom(resCode , client,roomid);
         }
 
-        private void OnResponseCreateRoom(CreateRoomResultCode resCode , Client client)
+        private void OnResponseCreateRoom(CreateRoomResultCode resCode , Client client,int roomid =-1)
         {
-            MessageData mdata = new MessageData(RequestCode.Room , ActionCode.CreateRoom , resCode.ToString());
+            string res = resCode.ToString();
+            if(roomid != -1)
+            {
+                res += "," + roomid;
+            }
+            MessageData mdata = new MessageData(RequestCode.Room , ActionCode.CreateRoom ,res);
             client.OnResponse(mdata);
         }
 
         public void RoomListUnStart(string data,Client client)
         {
             List<Room> roomList = roomDAO.SeachRoomByStatus(client.GetConn() , RoomStatus.Waiting);
-            string res = "0,";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(roomList.Count+"_");
             if(roomList.Count != 0)
             {
-
+                foreach(Room r in roomList)
+                {
+                    sb.Append(r.roomId);
+                    sb.Append(',');
+                    sb.Append(r.ownerName);
+                    sb.Append('|');
+                }
             }
-            OnResponseRoomListUnStart(res , client);
+            OnResponseRoomListUnStart(sb.ToString() , client);
         }
 
         private void OnResponseRoomListUnStart(string data,Client client)

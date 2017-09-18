@@ -29,7 +29,6 @@ namespace JungleBattle_Server.Controller
             User user = userDAO.ExistAccount(client.GetConn() , account[0] , account[1]);
 
             LoginResultCode resCode = Common.LoginResultCode.Fail;
-            UserGameCount ugc = null;
             if(user  != null)
             {
                 resCode = Common.LoginResultCode.Success;
@@ -54,6 +53,14 @@ namespace JungleBattle_Server.Controller
             }
             MessageData mdata = new MessageData(RequestCode.User , ActionCode.Login , data);
             client.OnResponse(mdata);
+        }
+
+        public void Logout(string data,Client client)
+        {
+        }
+        private void OnResponseLogout(LoginResultCode resCode,Client client)
+        {
+
         }
 
         //客户端注册处理
@@ -84,12 +91,17 @@ namespace JungleBattle_Server.Controller
             {
                 resCode = RegisterResultCode.AlreadyExit;
             }
-            OnResponseRegister(resCode , client);
+            OnResponseRegister(resCode , client,user);
         }
         //注册响应
-        private void OnResponseRegister(RegisterResultCode resCode , Client client)
+        private void OnResponseRegister(RegisterResultCode resCode , Client client,User user)
         {
-            MessageData mdata = new MessageData(RequestCode.User , ActionCode.Register , resCode.ToString());
+            string res = resCode.ToString();
+            if(RegisterResultCode.Success == resCode)
+            {
+                res += "," + user.userid + "," + user.userName + "," + user.userPass;
+            }
+            MessageData mdata = new MessageData(RequestCode.User , ActionCode.Register , res);
             client.OnResponse(mdata);
         }
 

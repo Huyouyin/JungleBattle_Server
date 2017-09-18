@@ -57,7 +57,6 @@ namespace JungleBattle_Server.Server
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 Console.WriteLine("远程客户端已经强制断开链接");
                 Quit();
                 return;

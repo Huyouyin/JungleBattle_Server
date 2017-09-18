@@ -11,11 +11,11 @@ namespace JungleBattle_Server.DAO
 {
     public class RoomDAO
     {
-        public bool InsertNewRoom(MySqlConnection conn,int ownerid)
+        public bool InsertNewRoom(MySqlConnection conn,string username)
         {
-            string cmdStr = "insert into room set ownerid=@ownerid,status = 0";
+            string cmdStr = "insert into room set username = @username,status = 0";
             MySqlCommand cmd = new MySqlCommand(cmdStr , conn);
-            cmd.Parameters.AddWithValue("roomid" , ownerid);
+            cmd.Parameters.AddWithValue("username" , username);
 
             try
             {
@@ -42,6 +42,7 @@ namespace JungleBattle_Server.DAO
 
             string cmdStr = "select * from room where status = @status";
             MySqlCommand cmd = new MySqlCommand(cmdStr , conn);
+            Console.WriteLine("status=" + status);
             cmd.Parameters.AddWithValue("status" , (int)status);
             MySqlDataReader reader = null;
             try
@@ -50,12 +51,11 @@ namespace JungleBattle_Server.DAO
                 while(reader.Read())
                 {
                     int roomid = reader.GetInt32(0);
-                    int ownerid = reader.GetInt32(1);
-                    reader.GetInt32(2);
-                    reader.GetInt32(3);
-                    Room room = new Room(roomid , ownerid);
+                    string ownername = reader.GetString(1);
+                    Room room = new Room(roomid , ownername);
                     roomlist.Add(room);
                 }
+                Console.WriteLine("f房间个数：" + roomlist.Count);
                 return roomlist;
             }
             catch(Exception e)
@@ -77,11 +77,11 @@ namespace JungleBattle_Server.DAO
         /// <param name="conn"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public int SeachWaitingRoomByUserID(MySqlConnection conn , int id)
+        public int SeachWaitingRoomByUserName(MySqlConnection conn , string username)
         {
-            string cmdStr = "select * from room where roomownerid = @id and status = 0";
+            string cmdStr = "select * from room where username = @username and status = 0";
             MySqlCommand cmd = new MySqlCommand(cmdStr , conn);
-            cmd.Parameters.AddWithValue("id" , id);
+            cmd.Parameters.AddWithValue("username" , username);
             MySqlDataReader reader = null;
             try
             {
@@ -89,6 +89,7 @@ namespace JungleBattle_Server.DAO
                 if(reader.Read())
                 {
                     int roomid = reader.GetInt32(0);
+                    return roomid;
                 }
                 return -1;
             }
